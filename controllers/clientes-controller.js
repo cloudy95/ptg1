@@ -15,9 +15,12 @@ const getClientes = async (req, res = response)=>{
 
     try{
 
-        const desde = Number(req.query.desde) || 0;
+        // console.log( req.query.desde )
 
-        if( desde == 0 ){
+        const desde = Number(req.query.desde) || 0;
+        // const responsable = req.query.respon || '';
+
+        if( desde == 0){
 
             const cliente = await  Cliente.find()
                                             .populate('responsable_v', 'nombre identificacion')
@@ -31,7 +34,7 @@ const getClientes = async (req, res = response)=>{
                 total
             })
 
-        }else{
+        }else if( desde != 0){
 
             //LAS PROMESAS SE EJECUTARAN DE MANERA SIMULTANEA
             const [ cliente, total ] = await Promise.all([
@@ -51,6 +54,19 @@ const getClientes = async (req, res = response)=>{
             })
 
         }
+
+        // if( responsable != '' ){
+
+        //     //BUSCAR SI EL RESPONSABLE QUE SE ENVIA EXISTE!!!
+
+        //     const cliente = await  Cliente.find({ responsable_v: responsable })
+
+        //     res.status(200).json({
+        //         ok:true,
+        //         cliente
+        //     })
+
+        // }
 
     }catch( err ){
 

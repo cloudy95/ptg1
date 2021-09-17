@@ -14,6 +14,8 @@ const RubroSchema = Schema({
 
 })
 
+RubroSchema.index( { '$**': 'text' } )
+
 RubroSchema.method( 'toJSON', function () {
 
     const { __v, _id, ...object } = this.toObject();

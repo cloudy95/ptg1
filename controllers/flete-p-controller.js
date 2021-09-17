@@ -10,7 +10,9 @@ const getFletep = async( req, res = response  )=>{
 
     try{
 
-        const fletep = await Fleteprimario.find();
+        const fletep = await Fleteprimario.find()
+                                        .populate('usuario', 'nombre identificacion')
+                                        .populate('proveedor', 'nombre')
 
         res.status(200).json({
 
@@ -40,6 +42,7 @@ const getFletepid = async( req, res = response )=>{
         const uid = req.params.id;
 
         const feltepDB = await Fleteprimario.findById( uid )
+                                            .populate('usuario', 'nombre identificacion')
 
         if( !feltepDB ){
 
@@ -130,7 +133,7 @@ const postFletep = async ( req, res = response  )=>{
 }
 
 /*=============================================
-	PUT LAS FLETE PRIMARIO
+	PUT FLETE PRIMARIO
 =============================================*/
 const putFletep = async ( req, res = response  )=>{
 
@@ -201,11 +204,99 @@ const putFletep = async ( req, res = response  )=>{
 
 }
 
+/*=============================================
+OBTENER EL ULTIMO REGISTRO DEL FLETE PRIMARIO
+=============================================*/
+const getFletepLimit = async (req, res = response)=>{
+
+    try{
+
+        //TRAER el ultimo dato registrado
+        const flete = await Fleteprimario.find().sort({$natural:-1}).limit(1);
+
+        res.status(200).json({
+            ok:true,
+            flete
+        })
+
+
+    }catch( err ){
+
+        console.log( err )
+        res.status(500).json({
+
+            ok:false,
+            msg:'Error inesperado... revisar logs'
+        })
+
+    }
+
+}
+
+/*=============================================
+FILTRADO POR RANGO DE FECHAS DE REGISTROS DE FLETE PRIMARIO
+=============================================*/
+const filterFecha = async( req, res = response )=>{
+
+    try{
+
+        if( new Date(req.query.fecha_inicial) != 'Invalid Date' || new Date(req.query.fecha_final) != 'Invalid Date' ){
+
+            //Guardando el rango de fechas
+            const fechaInicial = req.query.fecha_inicial;
+            const fechaFinal = req.query.fecha_final;
+    
+            const reg = await Fleteprimario.find({
+                fecha_emision: {
+                    $gte:fechaInicial,
+                    $lt:fechaFinal
+                }
+            })
+            .populate('usuario', 'nombre identificacion')
+            .populate('proveedor', 'nombre identificacion')
+
+            res.status(200).json({
+                ok:true,
+                reg
+            })
+
+
+        }else{
+
+            res.status(500).json({
+    
+                ok:false,
+                msg:'Error inesperado'
+            })
+
+
+        }
+
+
+        
+
+    }catch( err ){
+
+        console.log( err )
+        res.status(500).json({
+
+            ok:false,
+            msg:'Error inesperado... revisar logs'
+        })
+
+    }
+    
+
+}
+
+
 module.exports = {
 
     getFletep,
     postFletep,
     putFletep,
-    getFletepid
+    getFletepid,
+    getFletepLimit,
+    filterFecha
 
 }

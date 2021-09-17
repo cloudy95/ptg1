@@ -12,14 +12,14 @@ const login = async( req, res = response )=>{
     try{
 
         //verificar email
-        const usuarioDB = await Usuario.findOne({ email })
+        const usuarioDB = await Usuario.findOne({ email: email.toLowerCase() })
 
         if( !usuarioDB ){
 
             return res.status(400).json({
 
                 ok: false,
-                msg: 'Email'
+                msg: 'Datos incorrectos'
 
             }) 
         }
@@ -43,7 +43,7 @@ const login = async( req, res = response )=>{
 
             return res.status(400).json({
                 ok: false,
-                msg: 'Errorp'
+                msg: 'Datos incorrectos'
             })
 
         }
@@ -76,7 +76,6 @@ const renewToken = async(req, res = response) => {
 
     // Obtener el usuario por UID
     const usuario = await Usuario.findById( uid );
-
 
     res.json({
         ok: true,

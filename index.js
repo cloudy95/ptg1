@@ -33,11 +33,11 @@ app.use( '/api/todo', require( './routes/busquedas' ) )
 app.use( '/api/login', require( './routes/auth' ) )
 
 //Lo ultimo
-app.get( '*', ( req, res )=>{
+// app.get( '*', ( req, res )=>{
 
-    res.sendFile( path.resolve(__dirname, 'public/index.html') )
+//     res.sendFile( path.resolve(__dirname, 'public/index.html') )
 
-})
+// })
 
 //con esto se levanta el sistema
 app.listen( process.env.PORT, () =>{

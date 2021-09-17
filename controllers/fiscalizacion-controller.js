@@ -23,19 +23,20 @@ const getFiscalizacion = async (req, res = response)=>{
 
         if( filtroVendedor != '' ){
 
-            const usuarioDB = await Usuario.findById( filtroVendedor );
+            const clienteDB = await Clientes.findById( filtroVendedor );
 
-            if( !usuarioDB ){
+            if( !clienteDB ){
 
                 return res.status( 400 ).json({
                     ok: false,
-                    msg: 'No existe el usuario'
+                    msg: 'No existe el cliente'
                 })
 
             }
 
-            fiscalizacion = await Fiscalizacion.find({ usuario: filtroVendedor })
-                                                .populate( 'cliente', 'nombre' )
+            fiscalizacion = await Fiscalizacion.find({ cliente: filtroVendedor })
+                                                .populate('usuario', 'nombre' )
+                                                .populate('cliente', 'nombre' )
 
         }else{
 

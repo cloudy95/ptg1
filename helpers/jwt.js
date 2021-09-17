@@ -10,7 +10,7 @@ const generarJWT = ( uid )=>{
     
         jwt.sign( paylod, process.env.JWT_SECRET, {
 
-            expiresIn: '12h'
+            expiresIn: '6h'
 
         }, ( err, token )=>{
 

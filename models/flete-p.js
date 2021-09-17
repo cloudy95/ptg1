@@ -2,11 +2,19 @@ const { Schema, model } = require('mongoose');
 
 const FleteprimarioSchema = Schema({
 
+    orden_compra:{
+        type: String,
+        required: true
+    },
     nombrechofer:{
         type: String,
         required: true
     },
     fecha_despacho:{
+        type:String,
+        required: true,
+    },
+    hora_despacho:{
         type:String,
         required: true,
     },
@@ -24,10 +32,6 @@ const FleteprimarioSchema = Schema({
     },
     cantidad_combustible:{
         type:String,
-        required: true
-    },
-    orden_compra:{
-        type: String,
         required: true
     },
     n_factura:{
@@ -51,6 +55,9 @@ const FleteprimarioSchema = Schema({
         type: Schema.Types.ObjectId,
         ref: 'Usuarios',
         required: true
+    },
+    status:{
+        type: String
     }
 
 })

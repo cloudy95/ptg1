@@ -2,7 +2,7 @@ const fs = require('fs');
 
 const Usuario = require('../models/usuario');
 
-const actualizarImagen = async( tipo, id, nombreArchivo )=>{
+const actualizarImagen = async( tipo, id, nombreArchivo, iduser )=>{
 
     let pathViejo = '';
 
@@ -11,6 +11,7 @@ const actualizarImagen = async( tipo, id, nombreArchivo )=>{
         case 'usuarios':
 
             const usuario = await Usuario.findById( id )
+
             if( !usuario ){
 
                 return false;
@@ -24,14 +25,15 @@ const actualizarImagen = async( tipo, id, nombreArchivo )=>{
                 fs.unlinkSync( pathViejo )
             }
 
+            // console.log( nombreArchivo )
+
             usuario.picture = nombreArchivo;
-            await usuario.save();
+            await Usuario.findByIdAndUpdate( iduser, usuario, { new : true } )
+            // await usuario.save();
 
             return true; 
 
         break;
-
-    
 
     }
 

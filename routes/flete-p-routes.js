@@ -10,11 +10,15 @@ const { validarCampos } = require( '../middlewares/validar-campos' )
 
 const { validarJWT } = require('../middlewares/validar-jwt');
 
-const {  getFletep, postFletep, putFletep, getFletepid } = require('../controllers/flete-p-controller')
+const {  getFletep, postFletep, putFletep, getFletepid, getFletepLimit, filterFecha } = require('../controllers/flete-p-controller')
 
 const router = Router();
 
 router.get( '/' , validarJWT, getFletep );
+
+router.get( '/fecha' , validarJWT, filterFecha );
+
+router.get( '/limit' , validarJWT, getFletepLimit );
 
 router.get( '/:id' , validarJWT, getFletepid );
 

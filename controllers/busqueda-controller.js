@@ -4,6 +4,7 @@ const { response } = require('express')
 const Cliente =  require('../models/clientes')
 const Rubro = require( '../models/rubro' )
 const Proveedor = require( '../models/proveedores' )
+const Usuario = require( '../models/usuario' )
 
 const getBusqueda = async ( req, res = response )=>{
 
@@ -38,12 +39,12 @@ const getBusqueda = async ( req, res = response )=>{
 
 const getBusquedaColeccion = async ( req, res = response )=>{
 
-    // const tabla 
+    // const tabla
 
     try{
 
         const tabla = req.params.tabla;
-        const busqueda = req.params.busqueda;
+        const busqueda = req.params.busqueda.toLowerCase();
         const collection = req.params.collection;
         const regex = new RegExp( busqueda, 'i' );
 
@@ -53,46 +54,30 @@ const getBusquedaColeccion = async ( req, res = response )=>{
 
             case 'clientes':
 
-                if( collection == 'nombre' ){
-
-                    data = await Cliente.find({ nombre: regex })
-                                         .populate('responsable_v', 'nombre identificacion')
-                                        .populate('rubro', 'nombre')
-
-                }else if(collection == 'identificacion'){
-
-                    data = await Cliente.find({ identificacion: regex })
-                                        .populate('responsable_v', 'nombre identificacion')
-                                        .populate('rubro', 'nombre')
-
-                }else if( collection == 'ciiv' ){ 
-
-                    data = await Cliente.find({ ciiv: regex })
-                                        .populate('responsable_v', 'nombre identificacion')
-                                        .populate('rubro', 'nombre')
-
-                }
+                data = await Cliente.find( {$text: {$search: regex} } )
+                    .populate('responsable_v', 'nombre identificacion')
+                    .populate('rubro', 'nombre')
+               
 
             break;                 
 
             case 'rubro':
-                data = await Rubro.find({ nombre: regex })
-                                    .populate('usuario', 'nombre identificacion')
+
+                 data = await Rubro.find( {$text: {$search: regex} } )
+                                        .populate('usuario', 'nombre identificacion')
 
             break;
 
             case 'proveedores':
 
-                if( collection == 'nombre' ){
-
-                    data = await Proveedor.find({ nombre: regex })
+                data = await Proveedor.find( {$text: {$search: regex} } )
                                         .populate('usuario', 'nombre identificacion')
 
-                }else if(collection == 'identificacion'){
+            break;
 
-                    data = await Proveedor.find({ identificacion: regex })
-                                            .populate('usuario', 'nombre identificacion')
-                }
+            case 'usuarios':
+
+                data = await Usuario.find( {$text: {$search: regex} } )
 
             break;
 

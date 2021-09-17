@@ -14,7 +14,7 @@ const { getBusqueda, getBusquedaColeccion } = require( '../controllers/busqueda-
 const router = Router();
 
 router.get( '/:busqueda' , validarJWT, getBusqueda );
-router.get( '/coleccion/:tabla/:collection/:busqueda' , validarJWT, getBusquedaColeccion );
+router.get( '/coleccion/:tabla/:busqueda' , validarJWT, getBusquedaColeccion );
 
 
 module.exports = router;

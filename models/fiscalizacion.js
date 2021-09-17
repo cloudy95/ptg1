@@ -4,7 +4,7 @@ const fiscalizacionSchema = Schema({
 
     orden:{
         type: String,
-        required: true
+        // required: true
     },
     usuario:{
         type: Schema.Types.ObjectId,
@@ -19,6 +19,9 @@ const fiscalizacionSchema = Schema({
     observacion:{
         type: String,
         required: true
+    },
+    fecha:{
+        type:String
     }
 
 })

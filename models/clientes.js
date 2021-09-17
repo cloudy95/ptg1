@@ -6,6 +6,10 @@ const ClienteSchema = Schema({
         type: String,
         required: true
     },
+    signo:{
+        type: String,
+        required: true
+    },
     identificacion:{
         type: String,
         required: true,
@@ -32,9 +36,14 @@ const ClienteSchema = Schema({
         type: Schema.Types.ObjectId,
         ref: 'Usuarios',
         required: true
+    },
+    fecha:{
+        type: String
     }
 
 }, { collection: 'Clientes' } )
+
+ClienteSchema.index( { '$**': 'text' } )
 
 ClienteSchema.method( 'toJSON', function () {
 

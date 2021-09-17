@@ -6,6 +6,10 @@ const ProveedoresSchema = Schema({
         type: String,
         required: true
     },
+    signo:{
+        type: String,
+        required: true
+    },
     identificacion:{
         type: String,
         required: true,
@@ -27,9 +31,14 @@ const ProveedoresSchema = Schema({
         type: Schema.Types.ObjectId,
         ref: 'Usuarios',
         require: true
+    },
+    fecha:{
+        type:String
     }
 
 } )
+
+ProveedoresSchema.index( { '$**': 'text' } )
 
 ProveedoresSchema.method( 'toJSON', function () {
 

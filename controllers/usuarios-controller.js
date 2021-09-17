@@ -174,7 +174,7 @@ const actualizarUsuario = async (req, res = response) =>{
 
                 return res.status( 400 ).json({
                     ok: false,
-                    msg: 'Ya existe un usuario con esta identificacion'
+                    msg: 'Ya existe un usuario con esa identificacion'
                 })
             }
         }

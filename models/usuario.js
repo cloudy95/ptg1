@@ -6,6 +6,10 @@ const UsuarioSchema = Schema({
         type: String,
         required: true
     },
+    signo:{
+        type: String,
+        required: true
+    },
     identificacion:{
         type: String,
         required: true,
@@ -41,11 +45,17 @@ const UsuarioSchema = Schema({
     },
     estado:{
         type: Boolean,
-        required: true
+        // required: true,
+        default: true
 
+    },
+    fecha:{
+        type:String
     }
 
 })
+
+UsuarioSchema.index( { '$**': 'text' } )
 
 UsuarioSchema.method( 'toJSON', function () {
 
