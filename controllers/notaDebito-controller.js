@@ -34,7 +34,7 @@ const getNotaDebito =  async( req, res = response )=>{
 
             }
 
-            const notaDebito = await NotaDebito.find({ cliente: filtroVendedor })
+            const notaDebito = await NotaDebito.find({ cliente: filtrocliente })
                                                 .populate('usuario', 'nombre' )
                                                 .populate('cliente', 'nombre' )
                                                 .populate('venta' )
