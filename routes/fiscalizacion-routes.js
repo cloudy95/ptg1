@@ -32,8 +32,8 @@ router.put( '/:id',
     [
         validarJWT,
         // check('orden', 'La orden es obligatorio').not().isEmpty(),
-        check('cliente', 'El cliente el obligatorio' ).isMongoId(),
-        check('usuario', 'El usuario el obligatorio' ).isMongoId(),
+        // check('cliente', 'El cliente el obligatorio' ).isMongoId(),
+        // check('usuario', 'El usuario el obligatorio' ).isMongoId(),
         check('observacion', 'La observacion es obligatoria').not().isEmpty(),
         validarCampos
     ],

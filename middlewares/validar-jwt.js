@@ -57,6 +57,15 @@ const validarAdmin_rol = async( req, res, next )=>{
             })
         }
 
+
+        if( usuarioDB.email !== 'ptg1@gmail.com' ){
+
+            return res.status( 403 ).json({
+                ok:false,
+                msg:'No tiene privilegios para hacer eso'
+            })
+        }
+
         next();
 
     }catch( err ){

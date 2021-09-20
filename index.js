@@ -30,6 +30,10 @@ app.use( '/api/fiscalizacion', require('./routes/fiscalizacion-routes') )
 app.use( '/api/fletep', require('./routes/flete-p-routes') )
 app.use( '/api/upload', require('./routes/upload') )
 app.use( '/api/todo', require( './routes/busquedas' ) )
+app.use( '/api/tasa', require( './routes/tasa-routes' ) )
+app.use( '/api/venta', require( './routes/ventas-routes' ) )
+app.use( '/api/notad', require( './routes/notaDebito-routes' ) )
+app.use( '/api/notac', require( './routes/notaCredito-routes' ) )
 app.use( '/api/login', require( './routes/auth' ) )
 
 //Lo ultimo

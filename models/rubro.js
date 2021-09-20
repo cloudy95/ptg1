@@ -10,6 +10,9 @@ const RubroSchema = Schema({
         type: Schema.Types.ObjectId,
         ref: 'Usuarios',
         required: true
+    },
+    fecha: {
+        type: String
     }
 
 })

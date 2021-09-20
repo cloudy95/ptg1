@@ -11,7 +11,7 @@ const FleteprimarioSchema = Schema({
         required: true
     },
     fecha_despacho:{
-        type:String,
+        type:String, 
         required: true,
     },
     hora_despacho:{
@@ -31,7 +31,11 @@ const FleteprimarioSchema = Schema({
         required: true
     },
     cantidad_combustible:{
-        type:String,
+        type:Number,
+        required: true
+    },
+    cantidad_venta:{
+        type:Number ,
         required: true
     },
     n_factura:{
@@ -56,8 +60,20 @@ const FleteprimarioSchema = Schema({
         ref: 'Usuarios',
         required: true
     },
+    precio_compra:{
+        type: Number,
+        required: true
+    },
     status:{
         type: String
+    },
+    saldo:{
+        type: Number,
+        required: true
+    },
+    abono:{
+        type: Number,
+        required: true
     }
 
 })

@@ -39,6 +39,9 @@ const ClienteSchema = Schema({
     },
     fecha:{
         type: String
+    },
+    estado:{
+        type:Boolean
     }
 
 }, { collection: 'Clientes' } )

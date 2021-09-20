@@ -37,6 +37,7 @@ const getFiscalizacion = async (req, res = response)=>{
             fiscalizacion = await Fiscalizacion.find({ cliente: filtroVendedor })
                                                 .populate('usuario', 'nombre' )
                                                 .populate('cliente', 'nombre' )
+                                               
 
         }else{
 
@@ -101,6 +102,27 @@ const crearFiscalizacion = async( req, res =response  )=>{
     
     try{
 
+        const usuarioDB = await Usuario.findById( req.body.usuario );
+
+        if( !usuarioDB ){
+
+            return res.status( 400 ).json({
+                ok: false,
+                msg: 'No existe el usuario'
+            })
+
+        }
+
+        const clienteDB = await Clientes.findById( req.body.cliente );
+
+        if( !clienteDB ){
+
+            return res.status( 400 ).json({
+                ok: false,
+                msg: 'No existe el cliente'
+            }) 
+        }
+
         const uid = req.uid
         const fiscalizacion = new Fiscalizacion({
             usuario: uid,
@@ -146,26 +168,26 @@ const ActualizarFiscalizacion = async( req, res = response )=>{
 
         }
 
-        const usuarioDB = await Usuario.findById( req.body.usuario );
+        // const usuarioDB = await Usuario.findById( req.body.usuario );
 
-        if( !usuarioDB ){
+        // if( !usuarioDB ){
 
-            return res.status( 400 ).json({
-                ok: false,
-                msg: 'No existe el usuario'
-            })
+        //     return res.status( 400 ).json({
+        //         ok: false,
+        //         msg: 'No existe el usuario'
+        //     })
 
-        }
+        // }
 
-        const clienteDB = await Clientes.findById( req.body.cliente );
+        // const clienteDB = await Clientes.findById( req.body.cliente );
 
-        if( !clienteDB ){
+        // if( !clienteDB ){
 
-            return res.status( 400 ).json({
-                ok: false,
-                msg: 'No existe el cliente'
-            }) 
-        }
+        //     return res.status( 400 ).json({
+        //         ok: false,
+        //         msg: 'No existe el cliente'
+        //     }) 
+        // }
 
 
         const fiscalizacionActualizada = await Fiscalizacion.findByIdAndUpdate( uid, req.body, { new : true } )

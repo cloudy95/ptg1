@@ -83,7 +83,7 @@ const postFletep = async ( req, res = response  )=>{
         const existeFactura = await Fleteprimario.findOne({ n_factura })
         const existeControl = await Fleteprimario.findOne({ n_control })
 
-        console.log( existeFactura )
+        // console.log( existeFactura )
 
         if( existeFactura || existeControl){
 
@@ -150,6 +150,18 @@ const putFletep = async ( req, res = response  )=>{
                 msg: 'No existe, Flete primario'
             })
         }
+
+        //VERIFICAR QUE EXISTA EL PROVEEDOR
+        // const provedores = await Proveedor.findById( req.body.proveedor )
+
+        // if( !provedores ){
+
+        //     return res.status(404).json({
+        //         ok: false,
+        //         msg: 'No existe este proveedor'
+        //     })
+
+        // }
 
         //Actualizaciones
         const { n_factura, n_control, ...campos  } = req.body;
@@ -240,6 +252,8 @@ const filterFecha = async( req, res = response )=>{
 
     try{
 
+        // console.log( req.query.fecha_inicial )
+
         if( new Date(req.query.fecha_inicial) != 'Invalid Date' || new Date(req.query.fecha_final) != 'Invalid Date' ){
 
             //Guardando el rango de fechas
@@ -271,9 +285,6 @@ const filterFecha = async( req, res = response )=>{
 
 
         }
-
-
-        
 
     }catch( err ){
 
