@@ -42,6 +42,9 @@ const ClienteSchema = Schema({
     },
     estado:{
         type:Boolean
+    },
+    ventas:{
+        type:Number
     }
 
 }, { collection: 'Clientes' } )

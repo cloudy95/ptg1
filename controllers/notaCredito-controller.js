@@ -72,6 +72,46 @@ const getNotaCredito = async ( req, res = response )=>{
 }
 
 /*=============================================
+	TRAER LA NOTA DE CREDITO POR SU ID
+=============================================*/
+const getnotacid = async( req, res = response )=>{
+
+    try{
+
+        const uid = req.params.id;
+
+        const venta = await Venta.findById( uid )
+
+        if( !venta ){
+
+            return res.status(400).json({
+                ok: false,
+                msg: 'No existe'
+            })
+        }
+
+        const notaCreditoDB = await NotaCredito.find(  { venta :uid } )
+                                    // .populate('cliente', 'signo identificacion')
+
+        res.status(200).json({
+
+            ok:true,
+            notaCreditoDB
+
+        })
+
+    }catch(err){
+
+        res.status(500).json({
+            ok:false,
+            msg:'Error inesperado...'
+        })
+
+    }
+
+}
+
+/*=============================================
 OBTENER EL ULTIMO REGISTRO DE NOTA DE CREDITO
 =============================================*/
 const getNotaCreditoLimit = async (req, res = response)=>{
@@ -155,7 +195,42 @@ const putNotaCredito =  async( req, res = response )=>{
 
     try{
 
+        const uid = req.params.id;
 
+        const notacDB = await NotaCredito.findById( uid )
+
+        if( !notacDB ){
+
+            return res.status(400).json({
+                ok: false,
+                msg: 'No existe'
+            })
+        }
+
+        // const { cliente, usuario, venta } = req.body;
+
+        // const [ cliente1, usuario1, venta1 ] = await Promise.all([
+        //     Cliente.findById( cliente ),    
+        //     Usuario.findById( usuario ),
+        //     Venta.findById( venta )
+        // ])
+
+        // if( !cliente1 || !usuario1 || venta1 ){
+
+        //     return res.status(404).json({
+        //         ok: false,
+        //         msg: 'No existe estos campos'
+        //     })
+
+        // }
+
+        const editnotac = await NotaCredito.findByIdAndUpdate( uid, req.body, { new : true } )
+
+        res.status(200).json({
+            ok:true,
+            editnotac
+        })
+ 
     }catch( err ){
 
         console.log( err )
@@ -169,12 +244,54 @@ const putNotaCredito =  async( req, res = response )=>{
 
 }
 
+/*=============================================
+ELIMINAR LA NOTA DE DEBITO
+=============================================*/
+const deleteNotaC = async( req, res = response )=>{
+
+    try{
+
+        const uid = req.params.id;
+
+        const notacDB = await NotaCredito.findById( uid )
+
+        if( !notacDB ){
+
+            return res.status(400).json({
+                ok: false,
+                msg: 'No existe'
+            })
+        }
+
+        await NotaCredito.findByIdAndDelete( uid )
+
+        res.status(200).json({
+            ok:true,
+            msg:'Nota credito eliminada'
+        }) 
+
+
+    }catch(err){
+
+        console.log( err )
+        res.status(500).json({
+
+            ok:false,
+            msg:'Error inesperado'
+        })
+
+
+    }
+
+}
+
 module.exports = {
 
     getNotaCredito,
     getNotaCreditoLimit,
+    getnotacid,
     postNotaCredito,
-    putNotaCredito
-
+    putNotaCredito,
+    deleteNotaC
 
 }

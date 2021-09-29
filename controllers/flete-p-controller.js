@@ -174,7 +174,7 @@ const putFletep = async ( req, res = response  )=>{
 
                 return res.status( 400 ).json({
                     ok: false,
-                    msg: 'Ya existe esta factura que estas modificando'
+                    msg: 'Ya existe este numero de factura que estas modificando'
                 })
             }
 

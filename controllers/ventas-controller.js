@@ -31,6 +31,44 @@ const getVenta = async ( req, res = response  )=>{
 }
 
 /*=============================================
+	TRAER CLIENTE POR SU ID
+=============================================*/
+const getVentaid = async( req, res = response )=>{
+
+    try{
+
+        const uid = req.params.id;
+
+        const ventaDB = await Venta.findById( uid )
+                                    .populate('cliente', 'signo identificacion')
+
+        if( !ventaDB ){
+
+            return res.status(400).json({
+                ok: false,
+                msg: 'No existe'
+            })
+        }
+
+        res.status(200).json({
+
+            ok:true,
+            ventaDB
+
+        })
+
+    }catch(err){
+
+        res.status(500).json({
+            ok:false,
+            msg:'Error inesperado...'
+        })
+
+    }
+
+}
+
+/*=============================================
 OBTENER EL ULTIMO REGISTRO DEL FLETE PRIMARIO
 =============================================*/
 const getVentaLimit = async (req, res = response)=>{
@@ -111,6 +149,60 @@ ACTUALIZAR VENTA
 =============================================*/
 const putVenta = async ( req, res = response )=>{
 
+    try{
+
+        const uid = req.params.id;
+
+        const ventassDB = await Venta.findById( uid )
+
+        if( !ventassDB ){
+
+            return res.status(400).json({
+                ok: false,
+                msg: 'No existe'
+            })
+        }
+
+        //PREGUNTAMOS SI XISTE EL CLIENTE Y EL USUARIO
+        const { cliente, usuario, ...campos } = req.body;
+
+        const [ clientes, usuarios ] = await Promise.all([
+            Cliente.findById( cliente ),
+            Usuario.findById( usuario )
+        ]) 
+
+        if( !clientes || !usuarios ){
+
+            return res.status(404).json({
+                ok: false,
+                msg: 'No existe estos campos'
+            })
+
+        }
+
+        campos.cliente = cliente;
+        campos.usuario = usuario;
+
+        const editVenta = await Venta.findByIdAndUpdate( uid, campos, { new : true } )
+
+        res.status(200).json({
+            ok:true,
+            editVenta
+        })
+
+
+    }catch(err ){
+
+        console.log( err )
+        res.status(500).json({
+
+            ok:false,
+            msg:'Error inesperado... revisar logs'
+        })
+
+
+    }
+
 
 }
 
@@ -172,6 +264,7 @@ module.exports = {
 
     getVenta,
     getVentaLimit,
+    getVentaid,
     postVenta,
     putVenta,
     filterFecha

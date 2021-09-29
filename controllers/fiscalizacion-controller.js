@@ -168,6 +168,22 @@ const ActualizarFiscalizacion = async( req, res = response )=>{
 
         }
 
+        const { cliente, usuario } = req.body;
+
+        const [ cliente1, usuario1 ] = await Promise.all([
+            Clientes.findById( cliente ),
+            Usuario.findById( usuario )
+        ]) 
+
+        if( !cliente1 || !usuario1 ){
+
+            return res.status(404).json({
+                ok: false,
+                msg: 'No existe estos campos'
+            })
+
+        }
+
         // const usuarioDB = await Usuario.findById( req.body.usuario );
 
         // if( !usuarioDB ){

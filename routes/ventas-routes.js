@@ -8,7 +8,7 @@ const { Router } = require('express')
 const { check } = require('express-validator')
 const { validarCampos } = require( '../middlewares/validar-campos' )
 
-const { getVenta, getVentaLimit, postVenta, putVenta, filterFecha } = require( '../controllers/ventas-controller' );
+const { getVenta, getVentaLimit, getVentaid, postVenta, putVenta, filterFecha } = require( '../controllers/ventas-controller' );
 const { validarJWT, validarAdmin_rol } = require('../middlewares/validar-jwt');
 
 const router = Router();
@@ -18,6 +18,8 @@ router.get( '/', validarJWT , getVenta );
 router.get( '/fecha' , validarJWT, filterFecha );
 
 router.get( '/limit' , validarJWT, getVentaLimit );
+
+router.get( '/:id' , validarJWT, getVentaid );
 
 router.post( '/', 
     [

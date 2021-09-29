@@ -44,7 +44,7 @@ const ventasSchema = Schema({
         type: String
     },
     pago:{
-        type: String
+        type: Number
     },
     fecha_despacho:{
         type: String,

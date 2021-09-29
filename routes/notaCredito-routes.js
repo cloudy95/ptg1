@@ -10,13 +10,15 @@ const { validarCampos } = require( '../middlewares/validar-campos' )
 
 const { validarJWT } = require('../middlewares/validar-jwt');
 
-const { getNotaCredito, getNotaCreditoLimit, postNotaCredito, putNotaCredito } = require('../controllers/notaCredito-controller')
+const { getNotaCredito, getNotaCreditoLimit, getnotacid,  postNotaCredito, putNotaCredito, deleteNotaC } = require('../controllers/notaCredito-controller')
 
 const router = Router();
 
 router.get( '/' , validarJWT,  getNotaCredito );
 
 router.get( '/limit' , validarJWT,  getNotaCreditoLimit );
+
+router.get( '/:id' , validarJWT,  getnotacid );
 
 router.post( '/', 
     [
@@ -45,7 +47,7 @@ router.put( '/:id',
     putNotaCredito 
 )
 
-// router.delete( '/:id', validarJWT, borrarProveedores)
+router.delete( '/:id', validarJWT, deleteNotaC)
 
 
 module.exports = router;
