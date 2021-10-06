@@ -2,7 +2,7 @@ const fs = require('fs');
 
 const Usuario = require('../models/usuario');
 
-const actualizarImagen = async( tipo, id, nombreArchivo, iduser )=>{
+const actualizarImagen = async( tipo, id, nombreArchivo )=>{
 
     let pathViejo = '';
 
@@ -28,7 +28,7 @@ const actualizarImagen = async( tipo, id, nombreArchivo, iduser )=>{
             // console.log( nombreArchivo )
 
             usuario.picture = nombreArchivo;
-            await Usuario.findByIdAndUpdate( iduser, usuario, { new : true } )
+            await Usuario.findByIdAndUpdate( id, usuario, { new : true } )
             // await usuario.save();
 
             return true; 

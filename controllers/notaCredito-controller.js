@@ -21,7 +21,7 @@ const getNotaCredito = async ( req, res = response )=>{
 
         const filtrocliente = req.query.cliente || '';
 
-        if( filtrocliente != '' ){
+        if( filtrocliente.length > 2 ){
 
             const clienteDB = await Cliente.findById( filtrocliente );
 
@@ -35,7 +35,7 @@ const getNotaCredito = async ( req, res = response )=>{
             }
 
             const notaCredito = await NotaCredito.find({ cliente: filtrocliente })
-                                                .populate('usuario', 'nombre signo identificacion' )
+                                                .populate('usuario', 'nombre apellido signo identificacion' )
                                                 .populate('cliente', 'nombre signo identificacion' )
                                                 .populate('venta' )
 
@@ -45,11 +45,30 @@ const getNotaCredito = async ( req, res = response )=>{
                 notaCredito
             })
 
+        }else if( filtrocliente == '0' ){
+
+            /*=============================================
+            TRAER SOLO LOS SALDOS MAYORES A 0
+            =============================================*/
+            const notaCredito = await NotaCredito.find( {saldo:{$gt:0}} )
+                                                .populate('usuario', 'nombre apellido signo identificacion' )
+                                                .populate('cliente', 'nombre identificacion' )
+                                                .populate('venta' )
+
+            res.status(200).json({
+                ok:true,
+                notaCredito
+            })
+
+        
+        
+        
+        
         }else{
 
             const notaCredito = await NotaCredito.find()
-                                                .populate('usuario', 'nombre' )
-                                                .populate('cliente', 'nombre' )
+                                                .populate('usuario', 'nombre apellido' )
+                                                .populate('cliente', 'nombre identificacion' )
                                                 .populate('venta' )
 
             res.status(200).json({
@@ -102,6 +121,7 @@ const getnotacid = async( req, res = response )=>{
 
     }catch(err){
 
+        console.log( 'holaaaa' )
         res.status(500).json({
             ok:false,
             msg:'Error inesperado...'
@@ -285,6 +305,63 @@ const deleteNotaC = async( req, res = response )=>{
 
 }
 
+/*=============================================
+FILTRADO POR RANGO DE FECHAS DE NOTA DE CREDITO
+=============================================*/
+const filterFechaNotaC = async( req, res = response )=>{
+
+    try{
+
+        // console.log( req.query.fecha_inicial )
+       
+        if( new Date(req.query.fecha_inicial) != 'Invalid Date' || new Date(req.query.fecha_final) != 'Invalid Date' ){
+
+            //Guardando el rango de fechas
+            const fechaInicial = req.query.fecha_inicial;
+            const fechaFinal = req.query.fecha_final;
+    
+            const reg = await NotaCredito.find({
+                fecha_emision: {
+                    $gte:fechaInicial,
+                    $lt:fechaFinal
+                }
+            })
+            .populate('usuario', 'nombre apellido signo identificacion' )
+            .populate('cliente', 'nombre identificacion' )
+            .populate('venta' )
+
+            res.status(200).json({
+                ok:true,
+                reg
+            })
+
+
+        }else{
+
+            console.log( 'holass' )
+
+            res.status(500).json({
+    
+                ok:false,
+                msg:'Error inesperado'
+            })
+
+
+        }
+
+    }catch( err ){
+
+        console.log( err )
+        res.status(500).json({
+
+            ok:false,
+            msg:'Error inesperado... revisar logs'
+        })
+
+    }
+
+}
+
 module.exports = {
 
     getNotaCredito,
@@ -292,6 +369,7 @@ module.exports = {
     getnotacid,
     postNotaCredito,
     putNotaCredito,
-    deleteNotaC
+    deleteNotaC,
+    filterFechaNotaC
 
 }

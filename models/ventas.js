@@ -77,6 +77,9 @@ const ventasSchema = Schema({
     direccion:{
         type: String,
         required: true
+    },
+    status:{ 
+        type: Boolean
     }
 
 })

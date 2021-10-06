@@ -296,10 +296,8 @@ const filterFecha = async( req, res = response )=>{
         })
 
     }
-    
 
 }
-
 
 module.exports = {
 

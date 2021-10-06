@@ -11,13 +11,45 @@ const getVenta = async ( req, res = response  )=>{
 
     try{
 
-        const venta = await Venta.find();
+        if( req.query.cliente != '' ){
 
-        res.json({
-            ok: true,
-            venta
-            // uid: req.uid
-        })
+            const clienteDB = await Cliente.findById( req.query.cliente );
+
+            if( !clienteDB ){
+
+                return res.status( 400 ).json({
+                    ok: false,
+                    msg: 'No existe el cliente'
+                })
+
+            }
+
+            const venta = await Venta.find({ cliente:req.query.cliente })
+                                    .populate('cliente')
+                                    .populate('usuario')
+                                    
+
+            res.json({
+                ok: true,
+                venta
+                // uid: req.uid
+            })
+
+
+
+        }else{
+
+            const venta = await Venta.find();
+
+            res.json({
+                ok: true,
+                venta
+                // uid: req.uid
+            })
+
+        }
+
+       
 
     }catch(err){
 
@@ -210,6 +242,8 @@ const putVenta = async ( req, res = response )=>{
 FILTRADO POR RANGO DE FECHAS DE REGISTROS DE VENTAS
 =============================================*/
 const filterFecha = async( req, res = response )=>{
+
+    // console.log( 'holaaa' )
 
     try{
 

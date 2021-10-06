@@ -21,7 +21,7 @@ const getBusqueda = async ( req, res = response )=>{
 
         ])
 
-        console.log( clientes )
+        // console.log( clientes )
 
         res.json({
             ok: true,
@@ -55,23 +55,22 @@ const getBusquedaColeccion = async ( req, res = response )=>{
             case 'clientes':
 
                 data = await Cliente.find( {$text: {$search: regex} } )
-                    .populate('responsable_v', 'nombre identificacion')
+                    .populate('responsable_v', 'nombre apellido identificacion')
                     .populate('rubro', 'nombre')
-               
 
             break;                 
 
             case 'rubro':
 
                  data = await Rubro.find( {$text: {$search: regex} } )
-                                        .populate('usuario', 'nombre identificacion')
+                                        .populate('usuario', 'nombre apellido identificacion')
 
             break;
 
             case 'proveedores':
 
                 data = await Proveedor.find( {$text: {$search: regex} } )
-                                        .populate('usuario', 'nombre identificacion')
+                                        .populate('usuario', 'nombre apellido identificacion')
 
             break;
 

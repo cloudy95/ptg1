@@ -16,7 +16,7 @@ const getRubro = async (req, res = response)=>{
     try{
 
         const rubro = await Rubro.find()
-                                .populate( 'usuario', 'nombre' )
+                                .populate( 'usuario' )
 
         res.status(200).json({
             ok:true,

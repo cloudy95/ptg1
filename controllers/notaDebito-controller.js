@@ -21,7 +21,7 @@ const getNotaDebito =  async( req, res = response )=>{
 
         const filtrocliente = req.query.cliente || '';
 
-        if( filtrocliente != '' ){
+        if( filtrocliente.length > 2 ){
 
             const clienteDB = await Cliente.findById( filtrocliente );
 
@@ -35,8 +35,8 @@ const getNotaDebito =  async( req, res = response )=>{
             }
 
             const notaDebito = await NotaDebito.find({ cliente: filtrocliente })
-                                                .populate('usuario', 'nombre' )
-                                                .populate('cliente', 'nombre' )
+                                                .populate('usuario', 'nombre apellido' )
+                                                .populate('cliente', 'nombre identificacion' )
                                                 .populate('venta' )
 
 
@@ -45,11 +45,27 @@ const getNotaDebito =  async( req, res = response )=>{
                 notaDebito
             })
 
+        }else if( filtrocliente == '0' ){
+        
+            /*=============================================
+            TRAER SOLO LOS SALDOS MAYORES A 0
+            =============================================*/
+            const notaDebito = await NotaDebito.find( {saldo:{$gt:0}} )
+                                                .populate('usuario', 'nombre apellido' )
+                                                .populate('cliente', 'nombre identificacion' )
+                                                .populate('venta' )
+
+            res.status(200).json({
+                ok:true,
+                notaDebito
+            })
+
+        
         }else{
 
             const notaDebito = await NotaDebito.find()
-                                            .populate('usuario', 'nombre' )
-                                            .populate('cliente', 'nombre' )
+                                            .populate('usuario', 'nombre apellido' )
+                                            .populate('cliente', 'nombre identificacion' )
                                             .populate('venta' )
 
             res.status(200).json({
@@ -290,6 +306,61 @@ const deleteNotaD = async( req, res = response )=>{
 
 }
 
+/*=============================================
+FILTRADO POR RANGO DE FECHAS DE NOTA DE DEBITO
+=============================================*/
+const filterFechaNotaD = async( req, res = response )=>{
+
+    try{
+
+        // console.log( req.query.fecha_inicial )
+
+        if( new Date(req.query.fecha_inicial) != 'Invalid Date' || new Date(req.query.fecha_final) != 'Invalid Date' ){
+
+            //Guardando el rango de fechas
+            const fechaInicial = req.query.fecha_inicial;
+            const fechaFinal = req.query.fecha_final;
+    
+            const reg = await NotaDebito.find({
+                fecha_emision: {
+                    $gte:fechaInicial,
+                    $lt:fechaFinal
+                }
+            })
+            .populate('usuario', 'nombre apellido signo identificacion' )
+            .populate('cliente', 'nombre identificacion' )
+            .populate('venta' )
+
+            res.status(200).json({
+                ok:true,
+                reg
+            })
+
+
+        }else{
+
+            res.status(500).json({
+    
+                ok:false,
+                msg:'Error inesperado'
+            })
+
+
+        }
+
+    }catch( err ){
+
+        console.log( err )
+        res.status(500).json({
+
+            ok:false,
+            msg:'Error inesperado... revisar logs'
+        })
+
+    }
+
+}
+
 module.exports = {
 
     getNotaDebito,
@@ -297,6 +368,7 @@ module.exports = {
     getnotadid,
     postNotaDebito,
     putNotaDebito,
-    deleteNotaD
+    deleteNotaD,
+    filterFechaNotaD
 
 }

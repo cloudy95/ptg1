@@ -69,7 +69,7 @@ const fileUpload = ( req, res = response )=>{
             }
 
             //Actualizar base de datos
-            actualizarImagen( tipo, id, nombreArchivo, req.uid );
+            actualizarImagen( tipo, id, nombreArchivo );
 
             res.json({
 

@@ -49,6 +49,8 @@ const validarAdmin_rol = async( req, res, next )=>{
 
         }
 
+       
+
         if( usuarioDB.rol !== 'administrador' ){
 
             return res.status( 403 ).json({
@@ -66,6 +68,7 @@ const validarAdmin_rol = async( req, res, next )=>{
             })
         }
 
+        // console.log( usuarioDB )
         next();
 
     }catch( err ){

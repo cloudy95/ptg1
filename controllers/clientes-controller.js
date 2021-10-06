@@ -22,35 +22,46 @@ const getClientes = async (req, res = response)=>{
 
         if( desde == 0){
 
-            const cliente = await  Cliente.find()
-                                            .populate('responsable_v', 'nombre identificacion')
+            /*=============================================
+            ORDENAR POR LAS VENTAS DE MAYOR A MENOR
+            =============================================*/
+            const cliente = await Cliente.find({}).sort({ venta: -1 }).limit(5)
+                                            .populate('responsable_v', 'nombre apellido identificacion')
                                             .populate('rubro', 'nombre')
+
+            // const cliente = await  Cliente.find()
+            //                                 .populate('responsable_v', 'nombre apellido identificacion')
+            //                                 .populate('rubro', 'nombre')
                                             
-            const total = await Cliente.countDocuments();
+            // const total = await Cliente.countDocuments();
 
             res.status(200).json({
                 ok:true,
-                cliente,
-                total
+                cliente
+                
             })
 
-        }else if( desde != 0){
+        }else{
+
+            const cliente = await  Cliente.find()
+                                            .populate('responsable_v', 'nombre apellido identificacion')
+                                            .populate('rubro', 'nombre')
 
             //LAS PROMESAS SE EJECUTARAN DE MANERA SIMULTANEA
-            const [ cliente, total ] = await Promise.all([
+            // const [ cliente, total ] = await Promise.all([
 
-                 Cliente.find()
-                .skip( desde )
-                .limit( 5 ),
+            //      Cliente.find()
+            //     .skip( desde )
+            //     .limit( 5 ),
 
-                Cliente.countDocuments()
+            //     Cliente.countDocuments()
                 
-                ])
+            //     ])
 
             res.status(200).json({
                 ok:true,
-                cliente,
-                total
+                cliente
+                
             })
 
         }

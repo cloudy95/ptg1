@@ -43,7 +43,7 @@ const ClienteSchema = Schema({
     estado:{
         type:Boolean
     },
-    ventas:{
+    venta:{
         type:Number
     }
 

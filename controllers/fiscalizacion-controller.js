@@ -35,7 +35,7 @@ const getFiscalizacion = async (req, res = response)=>{
             }
 
             fiscalizacion = await Fiscalizacion.find({ cliente: filtroVendedor })
-                                                .populate('usuario', 'nombre' )
+                                                .populate('usuario', 'nombre apellido' )
                                                 .populate('cliente', 'nombre' )
                                                
 
