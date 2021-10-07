@@ -25,7 +25,8 @@ const getClientes = async (req, res = response)=>{
             /*=============================================
             ORDENAR POR LAS VENTAS DE MAYOR A MENOR
             =============================================*/
-            const cliente = await Cliente.find({}).sort({ venta: -1 }).limit(5)
+            // sort({ venta: -1 })
+            const cliente = await Cliente.find( {venta:{$gt:0}} ).limit(5)
                                             .populate('responsable_v', 'nombre apellido identificacion')
                                             .populate('rubro', 'nombre')
 

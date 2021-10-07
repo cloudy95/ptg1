@@ -36,7 +36,7 @@ const getNotaCredito = async ( req, res = response )=>{
 
             const notaCredito = await NotaCredito.find({ cliente: filtrocliente })
                                                 .populate('usuario', 'nombre apellido signo identificacion' )
-                                                .populate('cliente', 'nombre signo identificacion' )
+                                                .populate('cliente', 'nombre signo identificacion telefono' )
                                                 .populate('venta' )
 
 
@@ -52,7 +52,7 @@ const getNotaCredito = async ( req, res = response )=>{
             =============================================*/
             const notaCredito = await NotaCredito.find( {saldo:{$gt:0}} )
                                                 .populate('usuario', 'nombre apellido signo identificacion' )
-                                                .populate('cliente', 'nombre identificacion' )
+                                                .populate('cliente', 'nombre signo identificacion telefono' )
                                                 .populate('venta' )
 
             res.status(200).json({
@@ -68,7 +68,7 @@ const getNotaCredito = async ( req, res = response )=>{
 
             const notaCredito = await NotaCredito.find()
                                                 .populate('usuario', 'nombre apellido' )
-                                                .populate('cliente', 'nombre identificacion' )
+                                                .populate('cliente', 'nombre signo identificacion telefono' )
                                                 .populate('venta' )
 
             res.status(200).json({

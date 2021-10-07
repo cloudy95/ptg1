@@ -259,7 +259,7 @@ const filterFecha = async( req, res = response )=>{
                     $lt:fechaFinal
                 }
             })
-            .populate('usuario', 'nombre identificacion signo')
+            .populate('usuario', 'nombre apellido identificacion signo')
             .populate('cliente', 'nombre signo identificacion')
 
             res.status(200).json({

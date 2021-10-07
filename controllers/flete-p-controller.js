@@ -10,16 +10,36 @@ const getFletep = async( req, res = response  )=>{
 
     try{
 
-        const fletep = await Fleteprimario.find()
-                                        .populate('usuario', 'nombre identificacion')
-                                        .populate('proveedor', 'nombre')
+        const filtrosaldo = req.query.saldo || '';
 
-        res.status(200).json({
+        if(filtrosaldo == ''){
 
-            ok:true,
-            fletep
+            const fletep = await Fleteprimario.find()
+                                            .populate('usuario', 'nombre apellido  identificacion')
+                                            .populate('proveedor', 'nombre')
 
-        })
+            res.status(200).json({
+                ok:true,
+                fletep
+            })
+
+
+        }else{
+
+            /*=============================================
+            TRAER SOLO LOS SALDOS MAYORES A 0
+            =============================================*/
+            const fletep = await Fleteprimario.find({ saldo: { $gt: 0 }} )
+                                            .populate('usuario', 'nombre apellido identificacion')
+                                            .populate('proveedor', 'nombre')
+
+            res.status(200).json({
+                ok:true,
+                fletep
+            })
+
+        }
+
         
     }catch(err){
 
@@ -266,7 +286,7 @@ const filterFecha = async( req, res = response )=>{
                     $lt:fechaFinal
                 }
             })
-            .populate('usuario', 'nombre identificacion')
+            .populate('usuario', 'nombre apellido identificacion')
             .populate('proveedor', 'nombre identificacion')
 
             res.status(200).json({
