@@ -88,6 +88,52 @@ const getNotaDebito =  async( req, res = response )=>{
 
 }
 
+/*=============================================
+TRAIGO LA NOTA DE DEBITO POR SU VENTA
+=============================================*/
+
+const getNotaDebitoVenta =  async( req, res = response )=>{
+
+    try{
+
+        const filtroventa = req.query.venta;
+
+        if( filtroventa.length != ''){
+
+            const ventaDB = await Venta.findById( filtroventa );
+
+            if( !ventaDB ){
+
+                return res.status( 400 ).json({
+                    ok: false,
+                    msg: 'No existe'
+                })
+
+            }
+
+            const notaDebito = await NotaDebito.find({ venta: filtroventa })
+
+
+            res.status(200).json({
+                ok:true,
+                notaDebito
+            })
+
+        }
+
+    }catch( err ){
+
+        console.log( err )
+        res.status(500).json({
+
+            ok:false,
+            msg:'Error inesperado'
+        })
+
+    }
+
+}
+
 
 /*=============================================
 TRAER LA NOTA DE DEBITO POR EL ID DE LA VENTA
@@ -366,6 +412,7 @@ module.exports = {
     getNotaDebito,
     getNotaDebitoLimit,
     getnotadid,
+    getNotaDebitoVenta,
     postNotaDebito,
     putNotaDebito,
     deleteNotaD,

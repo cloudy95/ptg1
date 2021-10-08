@@ -3,6 +3,9 @@ const bcrypt = require('bcryptjs')
 const { response } = require('express');
 const { generarJWT } = require('../helpers/jwt');
 
+
+const { getMenuFrontend } = require('../helpers/menu-frontend')
+
 const Usuario = require('../models/usuario');
 
 const login = async( req, res = response )=>{
@@ -54,7 +57,8 @@ const login = async( req, res = response )=>{
 
         res.json({
             ok:true,
-            token
+            token,
+            menu: getMenuFrontend( usuarioDB.rol )
         })
 
     }catch( err ){
@@ -77,10 +81,19 @@ const renewToken = async(req, res = response) => {
     // Obtener el usuario por UID
     const usuario = await Usuario.findById( uid );
 
+    if( !usuario ){
+
+        return res.status(400).json({
+            ok: false,
+            msg: 'No existe'
+        })
+    }
+
     res.json({
         ok: true,
         token,
-        usuario
+        usuario,
+        menu: getMenuFrontend( usuario.rol )
     });
 
 }

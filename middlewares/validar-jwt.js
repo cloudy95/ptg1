@@ -48,7 +48,6 @@ const validarAdmin_rol = async( req, res, next )=>{
             })
 
         }
-
        
 
         if( usuarioDB.rol !== 'administrador' ){

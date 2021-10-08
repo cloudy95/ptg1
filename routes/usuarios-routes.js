@@ -13,7 +13,7 @@ const { validarJWT, validarAdmin_rol } = require('../middlewares/validar-jwt');
 
 const router = Router();
 
-router.get( '/', [ validarJWT ,validarAdmin_rol ] , getUsuarios );
+router.get( '/', [ validarJWT ] , getUsuarios );
 
 router.get( '/:id', [ validarJWT ,validarAdmin_rol ] , getUsuariosid );
 
@@ -37,7 +37,6 @@ router.post( '/',
 router.put( '/:id', 
     [
         validarJWT,
-        validarAdmin_rol,
         // check('nombre', 'El nombre es obligatorio').not().isEmpty(),
         validarCampos
     ],

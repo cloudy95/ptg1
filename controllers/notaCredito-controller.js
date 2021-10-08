@@ -91,6 +91,52 @@ const getNotaCredito = async ( req, res = response )=>{
 }
 
 /*=============================================
+TRAIGO LA NOTA DE CREDITO POR SU VENTA
+=============================================*/
+
+const getNotaCreditoVenta =  async( req, res = response )=>{
+
+    try{
+
+        const filtroventa = req.query.venta;
+
+        if( filtroventa.length != ''){
+
+            const ventaDB = await Venta.findById( filtroventa );
+
+            if( !ventaDB ){
+
+                return res.status( 400 ).json({
+                    ok: false,
+                    msg: 'No existe'
+                })
+
+            }
+
+            const notaCredito = await NotaCredito.find({ venta: filtroventa })
+
+
+            res.status(200).json({
+                ok:true,
+                notaCredito
+            })
+
+        }
+
+    }catch( err ){
+
+        console.log( err )
+        res.status(500).json({
+
+            ok:false,
+            msg:'Error inesperado'
+        })
+
+    }
+
+}
+
+/*=============================================
 	TRAER LA NOTA DE CREDITO POR SU ID
 =============================================*/
 const getnotacid = async( req, res = response )=>{
@@ -367,6 +413,7 @@ module.exports = {
     getNotaCredito,
     getNotaCreditoLimit,
     getnotacid,
+    getNotaCreditoVenta,
     postNotaCredito,
     putNotaCredito,
     deleteNotaC,

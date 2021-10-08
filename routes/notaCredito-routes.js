@@ -8,19 +8,21 @@ const { Router } = require('express')
 const { check } = require('express-validator')
 const { validarCampos } = require( '../middlewares/validar-campos' )
 
-const { validarJWT } = require('../middlewares/validar-jwt');
+const { validarJWT, validarAdmin_rol } = require('../middlewares/validar-jwt');
 
-const { getNotaCredito, getNotaCreditoLimit, getnotacid,  postNotaCredito, putNotaCredito, deleteNotaC, filterFechaNotaC } = require('../controllers/notaCredito-controller')
+const { getNotaCredito, getNotaCreditoLimit, getnotacid, getNotaCreditoVenta, postNotaCredito, putNotaCredito, deleteNotaC, filterFechaNotaC } = require('../controllers/notaCredito-controller')
 
 const router = Router();
 
-router.get( '/' , validarJWT,  getNotaCredito );
+router.get( '/' , validarJWT, validarAdmin_rol, getNotaCredito );
 
-router.get( '/limit' , validarJWT,  getNotaCreditoLimit );
+router.get( '/v', validarJWT, getNotaCreditoVenta )
 
-router.get( '/fecha' , validarJWT, filterFechaNotaC );
+router.get( '/limit' , validarJWT, getNotaCreditoLimit );
 
-router.get( '/:id' , validarJWT,  getnotacid );
+router.get( '/fecha' , validarJWT, validarAdmin_rol, filterFechaNotaC );
+
+router.get( '/:id' , validarJWT, getnotacid );
 
 router.post( '/', 
     [
