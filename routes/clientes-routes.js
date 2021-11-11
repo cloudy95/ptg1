@@ -23,10 +23,7 @@ router.post( '/',
         validarJWT,
         check('nombre', 'El nombre del cliente es obligatorio').not().isEmpty(),
         check('identificacion', 'La identificacion es obligarotia').not().isEmpty(),
-        check( 'direccion', 'La direccion el obligatoria' ).not().isEmpty(),
-        check('telefono', 'El telefono es obligatorio').not().isEmpty(),
         check('rubro', 'El rubro es obligatorio').isMongoId(),
-        check('ciiv', 'El ciiv es obligatorio').not().isEmpty(),
         validarCampos
     ],
     crearClientes );

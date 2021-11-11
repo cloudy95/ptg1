@@ -17,11 +17,11 @@ const ClienteSchema = Schema({
     },
     direccion:{
         type: String,
-        required: true
+        // required: true
     },
     telefono:{
         type: String,
-        required: true
+        // required: true
     },
     rubro:{
         type: Schema.Types.ObjectId,
@@ -30,7 +30,7 @@ const ClienteSchema = Schema({
     },
     ciiv:{ 
         type: String,
-        required: true,
+        // required: true,
     },
     responsable_v: {
         type: Schema.Types.ObjectId,
