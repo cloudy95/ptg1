@@ -8,12 +8,12 @@ const ClienteSchema = Schema({
     },
     signo:{
         type: String,
-        required: true
+        // required: true
     },
     identificacion:{
         type: String,
         required: true,
-        unique: true
+        // unique: true
     },
     direccion:{
         type: String,
@@ -26,7 +26,7 @@ const ClienteSchema = Schema({
     rubro:{
         type: Schema.Types.ObjectId,
         ref: 'Rubro',
-        required: true
+        // required: true
     },
     ciiv:{ 
         type: String,
