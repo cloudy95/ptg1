@@ -12,8 +12,8 @@ const ClienteSchema = Schema({
     },
     identificacion:{
         type: String,
-        required: true,
-        // unique: true
+        // required: true,
+        unique: true
     },
     direccion:{
         type: String,

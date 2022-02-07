@@ -47,6 +47,7 @@ const getClientes = async (req, res = response)=>{
             const cliente = await  Cliente.find()
                                             .populate('responsable_v', 'nombre apellido identificacion')
                                             .populate('rubro', 'nombre')
+                                            .sort({ $natural: -1 })
 
             //LAS PROMESAS SE EJECUTARAN DE MANERA SIMULTANEA
             // const [ cliente, total ] = await Promise.all([
@@ -134,6 +135,8 @@ const getClientespid = async( req, res = response )=>{
 	CREAR CLIENTES
 =============================================*/
 const crearClientes = async(req, res = response)=>{
+
+    console.log( req.body)
 
     try{
 
